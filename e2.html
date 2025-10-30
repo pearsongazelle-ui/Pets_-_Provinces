@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2 | Competition Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, 'Geneva', Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #7f8ec8, #d06e6e, #c3a667);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #1b1b1b66;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgb(0, 0, 0);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.507);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background: #1b1b1b66;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgb(0, 0, 0);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffcc0096;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.507);
+        }
+
+        h2 i {
+            font-size: 1.8rem;
+        }
+
+        .list {
+            list-style: none;
+        }
+
+        .list li {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: rgba(0, 0, 0, 0.441);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .list li:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: linear-gradient(to bottom, #ff7e5f, #feb47b);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .list li:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(10px);
+        }
+
+        .list li:hover:before {
+            transform: scaleY(1);
+        }
+
+        .list li i {
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .pets li i {
+            color: #78a9fe;
+        }
+
+        .provinces li i {
+            color: #fb9898;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #1b1b1b66;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgb(0, 0, 0);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-out 0.4s both;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgb(0, 0, 0);
+        }
+
+        /* Article Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.363);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #7486cc, #e27e7e);
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.589);
+            animation: modalAppear 0.5s ease-out;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .article-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .article-header h2 {
+            font-size: 2.5rem;
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .article-text {
+            line-height: 1.6;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .article-text p {
+            margin-bottom: 15px;
+        }
+
+        .fact-box {
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #86e9ff;
+        }
+
+        .fact-box h3 {
+            color: #86e9ff;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .article-header h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Exercise 2</h1>
+            <p class="subtitle">Competition Edition</p>
+        </header>
+        
+        <div class="content">
+            <div class="card">
+                <h2><i class="fas fa-paw"></i>4 Commonly Kept House Pets</h2>
+                <p style="margin-bottom: 20px; opacity: 0.9;">Four most popular pets kept in households</p>
+                <ul class="list pets">
+                    <li data-id="cats"><i class="fas fa-cat"></i> Cats</li>
+                    <li data-id="dogs"><i class="fas fa-dog"></i> Dogs</li>
+                    <li data-id="birds"><i class="fas fa-dove"></i> Birds</li>
+                    <li data-id="fish"><i class="fas fa-fish"></i> Fish</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h2><i class="fas fa-map-marked-alt"></i>5 South African Provinces</h2>
+                <p style="margin-bottom: 20px; opacity: 0.9;">Five highest population density provinces</p>
+                <ul class="list provinces">
+                    <li data-id="gauteng"><i class="fas fa-city"></i> Gauteng</li>
+                    <li data-id="kwazulu-natal"><i class="fas fa-umbrella-beach"></i> KwaZulu-Natal</li>
+                    <li data-id="mpumalanga"><i class="fas fa-mountain"></i> Mpumalanga</li>
+                    <li data-id="western-cape"><i class="fas fa-mountain"></i> Western Cape</li>
+                    <li data-id="limpopo"><i class="fas fa-tree"></i> Limpopo</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Created with HTML and CSS!</p>
+            <div class="badge">Gazelle Pearson</div>
+        </div>
+    </div>
+
+    <!-- Article Modals -->
+    <div id="article-modal" class="modal">
+        <div class="modal-content">
+            <div class="close-btn"><i class="fas fa-times"></i></div>
+            <div id="article-content">
+                <!-- Content will be inserted here using JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Article data
+        const articles = {
+            // Pets
+            'cats': {
+                title: 'Cats',
+                image: 'https://blackhawkpetcare.com/media/0svbyf3v/bh-bumese_articles-2140x1200px-6.jpg?width=1070&v=1da34c7ac940910',
+                content: `
+                    <p>Cats are small carnivorous mammals that have been domesticated for thousands of years. They are one of the most popular pets worldwide due to their independent nature and affectionate behavior with their owners.</p>
+                    <p>Domestic cats are valued by humans for companionship and their ability to hunt vermin. There are over 70 different cat breeds recognized by various cat registries.</p>
+                    <div class="fact-box">
+                        <h3>Did You Know?</h3>
+                        <p>Cats spend 70% of their lives sleeping. That's approximately 13-16 hours a day!</p>
+                    </div>
+                    <p>Cats communicate through vocalizations like meowing, purring, trilling, hissing, and growling, as well as cat-specific body language.</p>
+                `
+            },
+            'dogs': {
+                title: 'Dogs',
+                image: 'https://r.testifier.nl/Acbs8526SDKI/resizing_type:fit/width:3840/height:2560/plain/https://s3-newsifier.ams3.digitaloceanspaces.com/gpblog.com/images/2025-09/20230709-0151m-68d7787ff1333.jpg',
+                content: `
+                    <p>Dogs were the first species to be domesticated by humans, with this process beginning over 15,000 years ago. Today, dogs serve various roles for humans including hunting, herding, pulling loads, protection, assisting police and military, companionship, and aiding disabled individuals.</p>
+                    <p>There are hundreds of different dog breeds, ranging from tiny Chihuahuas to massive Great Danes. Each breed has its own characteristics and temperament.</p>
+                    <div class="fact-box">
+                        <h3>Did You Know?</h3>
+                        <p>A dog's sense of smell is 10,000 to 100,000 times more acute than a human's!</p>
+                    </div>
+                    <p>Dogs have been bred for various behaviors, sensory capabilities, and physical attributes, leading to tremendous diversity in the species.</p>
+                `
+            },
+            'birds': {
+                title: 'Birds',
+                image: 'https://birdlife.org.au/wp-content/uploads/2023/05/Phillip-Green-Superb-Parrot-banner.jpg',
+                content: `
+                    <p>Birds kept as pets range from small finches to large parrots. Popular pet birds include parakeets, cockatiels, lovebirds, canaries, and various parrot species.</p>
+                    <p>Birds are intelligent creatures that can form strong bonds with their human caregivers. Many species can be taught to talk, whistle, and perform tricks.</p>
+                    <div class="fact-box">
+                        <h3>Did You Know?</h3>
+                        <p>Some parrot species can live for over 80 years, making them a lifelong commitment for their owners!</p>
+                    </div>
+                    <p>Proper care for pet birds includes providing a spacious cage, a balanced diet, regular social interaction, and mental stimulation through toys and training.</p>
+                `
+            },
+            'fish': {
+                title: 'Fish',
+                image: 'https://images.unsplash.com/photo-1524704654690-b56c05c78a00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+                content: `
+                    <p>Fish are popular pets for people who want a low-maintenance companion. They come in countless species, colors, and sizes, from tiny tetras to large koi.</p>
+                    <p>Aquariums can be beautiful additions to homes and offices, providing a calming presence. Proper aquarium maintenance is essential for fish health.</p>
+                    <div class="fact-box">
+                        <h3>Did You Know?</h3>
+                        <p>The oldest known goldfish lived to 43 years old! Most goldfish live 10-15 years with proper care.</p>
+                    </div>
+                    <p>Different fish species have different requirements for water temperature, pH, tank size, and diet. Research is essential before setting up an aquarium.</p>
+                `
+            },
+            // South African Provinces
+            'gauteng': {
+                title: 'Gauteng',
+                image: 'https://www.gauteng.net/wp-content/uploads/2022/05/Johannesburg-Skyline.jpg',
+                content: `
+                    <p>Gauteng is the smallest province in South Africa by area, but it is the most populous and has the highest population density. The name "Gauteng" is a Sesotho word that means "place of gold".</p>
+                    <p>Gauteng is the economic hub of South Africa, contributing over 34% to the country's GDP. Major cities include Johannesburg, Pretoria, and Soweto.</p>
+                    <div class="fact-box">
+                        <h3>Did You Know?</h3>
+                        <p>Gauteng produces about 33% of South Africa's GDP despite covering only 1.5% of the country's land area!</p>
+                    </div>
+                    <p>The province is home to important historical sites like the Cradle of Humankind, a UNESCO World Heritage Site where some of the oldest hominid fossils have been discovered. It's also home to the Formula 1 Kyalami Race Track.</p>
+                `
+            },
+            'kwazulu-natal': {
+                title: 'KwaZulu-Natal',
+                image: 'https://bbqboy.net/wp-content/uploads/2013/11/durban-south-africa.jpg',
+                content: `
+                    <p>KwaZulu-Natal is a province of South Africa that was created in 1994 when the Zulu bantustan of KwaZulu and Natal Province were merged. It is located in the southeast of the country.</p>
+                    <p>The province has the second highest population in South Africa and is known for its diverse cultures and beautiful landscapes, including beaches along the Indian Ocean and the Drakensberg mountains.</p>
+                    <div class="fact-box">
+                        <h3>Did You Know?</h3>
+                        <p>KwaZulu-Natal is the only province in South Africa with a monarchy specifically provided for in the country's constitution!</p>
+                    </div>
+                    <p>Major cities in KwaZulu-Natal include Durban, Pietermaritzburg, and Richards Bay. The province is a popular tourist destination with attractions like the iSimangaliso Wetland Park and uKhahlamba-Drakensberg Park.</p>
+                `
+            },
+            'mpumalanga': {
+                title: 'Mpumalanga',
+                image: 'https://www.south-africa-info.co.za/info/articles/1030/images/bottom_images/5.jpg',
+                content: `
+                    <p>Mpumalanga is a province in eastern South Africa, bordering Swaziland and Mozambique. The name means "the place where the sun rises" in the Swazi, Xhosa, and Zulu languages.</p>
+                    <p>The province is known for its spectacular landscapes, including part of the Drakensberg mountain range, the Blyde River Canyon, and numerous waterfalls. It's a popular ecotourism destination.</p>
+                    <div class="fact-box">
+                        <h3>Did You Know?</h3>
+                        <p>Mpumalanga is home to the world's third-largest canyon, the Blyde River Canyon, which is 25 kilometers long and averages 750 meters deep!</p>
+                    </div>
+                    <p>Major industries in Mpumalanga include agriculture, forestry, and mining (particularly coal). The province also contains a significant portion of South Africa's Kruger National Park.</p>
+                `
+            },
+            'western-cape': {
+                title: 'Western Cape',
+                image: 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+                content: `
+                    <p>The Western Cape is a province of South Africa, situated on the southwestern coast of the country. It is the fourth most populous province in South Africa.</p>
+                    <p>The province is famous for its natural beauty, including iconic landmarks like Table Mountain, Cape Point, and the Cape Winelands. Cape Town, the provincial capital, is one of South Africa's three capital cities.</p>
+                    <div class="fact-box">
+                        <h3>Did You Know?</h3>
+                        <p>The Western Cape has the country's highest development index and life expectancy, and the lowest infant mortality rate!</p>
+                    </div>
+                    <p>The Western Cape is a major tourist destination with a Mediterranean climate, beautiful beaches, and diverse flora in the Cape Floristic Region, a UNESCO World Heritage Site.</p>
+                `
+            },
+            'limpopo': {
+                title: 'Limpopo',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Polokwane_%28Pietersburg%29%2C_Limpopo%2C_South_Africa.jpg/330px-Polokwane_%28Pietersburg%29%2C_Limpopo%2C_South_Africa.jpg',
+                content: `
+                    <p>Limpopo is the northernmost province of South Africa, named after the Limpopo River that flows along its northern border. The province was formed from the northern part of the former Transvaal province in 1994.</p>
+                    <p>Limpopo is rich in wildlife, nature, and history. It shares borders with Botswana, Zimbabwe, and Mozambique, making it a gateway to other African countries.</p>
+                    <div class="fact-box">
+                        <h3>Did You Know?</h3>
+                        <p>Limpopo is home to the "Big Tree," a giant baobab that is over 1,700 years old and has a circumference of 33 meters!</p>
+                    </div>
+                    <p>The province contains part of the Kruger National Park and numerous private game reserves. It's also known for its baobab trees, mineral resources, and cultural heritage sites like Mapungubwe, an ancient African kingdom.</p>
+                `
+            }
+        };
+
+        // Modal functionality
+        const modal = document.getElementById('article-modal');
+        const articleContent = document.getElementById('article-content');
+        const closeBtn = document.querySelector('.close-btn');
+
+        // Add click events to list items
+        document.querySelectorAll('.list li').forEach(item => {
+            item.addEventListener('click', function() {
+                const articleId = this.getAttribute('data-id');
+                showArticle(articleId);
+            });
+        });
+
+        // Close modal when close button is clicked
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside the content
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Function to show article
+        function showArticle(articleId) {
+            const article = articles[articleId];
+            if (article) {
+                articleContent.innerHTML = `
+                    <div class="article-header">
+                        <h2>${article.title}</h2>
+                    </div>
+                    <img src="${article.image}" alt="${article.title}" class="article-image">
+                    <div class="article-text">
+                        ${article.content}
+                    </div>
+                `;
+                modal.style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
